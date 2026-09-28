@@ -130,7 +130,7 @@
   table.data th{text-align:left;font-weight:600;color:var(--muted);font-size:13px;padding:8px 12px 8px 0;border-bottom:1px solid var(--rule)}
   table.data td{padding:10px 12px 10px 0;border-bottom:1px solid var(--rule);vertical-align:top}
   td.cat{font-weight:600;color:var(--muted);font-size:14px;white-space:nowrap;padding-right:20px}
-  tr.group-end td{border-bottom-color:var(--ink)}
+  table.data tr.group-end td, table.data td.group-end{border-bottom-color:var(--ink)}
   table.data tbody tr:last-child td{border-bottom-color:var(--rule)}
   td.num{font-weight:700;font-size:18px;white-space:nowrap}
   td.id{color:var(--muted);white-space:nowrap}
@@ -162,22 +162,45 @@
   .flash{position:fixed;inset:0;background:var(--red);opacity:0;pointer-events:none;z-index:45}
   .flash.go{animation:redflash .8s ease-out}
   @keyframes redflash{0%{opacity:0}12%{opacity:.45}30%{opacity:0}48%{opacity:.35}100%{opacity:0}}
+  .whiteout{position:fixed;inset:0;background:#FFFFFF;opacity:0;pointer-events:none;z-index:44}
+  .whiteout.go{animation:flashbang .9s ease-out}
+  @keyframes flashbang{0%{opacity:0}8%{opacity:1}100%{opacity:0}}
   .zinger{position:fixed;left:50%;top:50%;z-index:46;width:min(520px,calc(100vw - 32px));background:var(--sheet);border:2px solid var(--red);border-radius:12px;padding:28px 28px 24px;box-shadow:var(--shadow-lg);transform:translate(-50%,-50%) scale(.92);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
   .zinger.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto;cursor:pointer}
   .zinger .z-label{color:var(--red);font-weight:700;font-size:14px;margin:0 0 8px}
   .zinger .z-msg{font-size:26px;line-height:1.2;font-weight:800;letter-spacing:-.01em;margin:0}
 
+  /* Hidden game ticket */
+  .linkish{font:inherit;color:inherit;background:none;border:0;padding:0;text-align:left;cursor:pointer;border-bottom:1px dotted var(--faint)}
+  .linkish:hover{color:var(--accent);border-bottom-color:var(--accent)}
+
+  /* Game */
+  .game{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:16px;background:rgba(14,20,34,.55)}
+  .game[hidden]{display:none}
+  .game-card{width:min(760px,100%);background:var(--sheet);border:1px solid var(--rule);border-radius:12px;padding:20px;box-shadow:var(--shadow-lg)}
+  .game-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .game-title{margin:0;font-size:22px;font-weight:800;letter-spacing:-.01em}
+  .game-sub{margin:2px 0 0;color:var(--muted);font-size:14px}
+  #game-canvas{display:block;width:100%;height:220px;border-radius:8px;background:var(--canvas);touch-action:manipulation;cursor:pointer}
+  .game-hint{margin:10px 0 0;color:var(--muted);font-size:13px}
+
+  /* Idle nudge comment */
+  .comment.nudge{border-color:var(--accent);animation:nudgein .35s ease-out}
+  @keyframes nudgein{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+
   /* Toast */
-  .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;background:var(--toast-bg);color:var(--toast-ink);padding:12px 18px;border-radius:8px;font-size:15px;font-weight:500;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;max-width:calc(100vw - 32px)}
+  .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;background:var(--toast-bg);color:var(--toast-ink);padding:12px 18px;border-radius:8px;font-size:15px;font-weight:500;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;width:max-content;max-width:calc(100vw - 32px);text-align:center}
   .toast.show{opacity:1;transform:translate(-50%,0)}
   .toast b{color:var(--hl-edge)}
 
   /* Dark mode toggle */
-  .theme-toggle{position:fixed;right:20px;bottom:20px;z-index:30;display:inline-flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;border-radius:999px;border:1px solid var(--rule);background:var(--sheet);color:var(--ink);font:600 14px/1 var(--font);cursor:pointer;box-shadow:var(--shadow-lg)}
+  .theme-toggle{position:fixed;right:calc(20px + env(safe-area-inset-right, 0px));bottom:calc(20px + env(safe-area-inset-bottom, 0px));z-index:30;display:inline-flex;align-items:center;gap:10px;padding:8px 14px 8px 8px;border-radius:999px;border:1px solid var(--rule);background:var(--sheet);color:var(--ink);font:600 14px/1 var(--font);cursor:pointer;box-shadow:var(--shadow-lg)}
   .track{width:40px;height:24px;border-radius:999px;background:var(--soft);border:1px solid var(--rule);position:relative;transition:background .2s}
   .knob{position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--muted);transition:transform .2s,background .2s}
   .theme-toggle[aria-checked="true"] .track{background:var(--accent);border-color:var(--accent)}
   .theme-toggle[aria-checked="true"] .knob{transform:translateX(16px);background:var(--on-accent)}
+  .knob::after{content:"\2600";position:absolute;inset:0;display:grid;place-items:center;font-size:11px;line-height:1;color:var(--sheet)}
+  .theme-toggle[aria-checked="true"] .knob::after{content:"\263E";color:var(--accent);font-size:12px}
 
   @media (max-width:1240px){
     .layout{grid-template-columns:minmax(0,760px) 260px}
@@ -188,13 +211,47 @@
   @media (max-width:980px){
     .layout{grid-template-columns:minmax(0,760px);padding:20px 12px 100px}
     .doc{grid-column:1}
-    .row{grid-template-columns:1fr}
+    .row{grid-template-columns:minmax(0,1fr)}
     .margin{background:var(--sheet);border-left:1px solid var(--rule);border-right:1px solid var(--rule);padding:0 64px 24px}
     .margin:empty{display:none}
     .comment{margin-top:0!important}
   }
   @media (max-width:640px){
-    .cell,.margin{padding-left:22px;padding-right:22px}
+    .appbar{padding:8px 12px;gap:10px}
+    .appbar .btn.primary{padding:10px 14px}
+    .toolbar{padding:2px 8px}
+    .tool{min-height:40px}
+    .coach{left:8px}
+    .resolve{padding:8px}
+    .pill{white-space:normal}
+    .meta th{width:104px}
+    .cell,.margin{padding-left:20px;padding-right:20px}
+
+    /* Stack tables into readable rows */
+    .tbl-wrap{overflow:visible}
+    table.stack, table.stack tbody, table.stack tr, table.stack td{display:block}
+    table.stack thead{display:none}
+    table.stack td{border:0;padding:0}
+    table.stack tr{padding:12px 0;border-bottom:1px solid var(--rule)}
+    table.stack tr:last-child{border-bottom:0}
+    table.metrics tr{display:grid;grid-template-columns:76px minmax(0,1fr);gap:2px 12px;align-items:baseline}
+    table.metrics td.cat{grid-column:1 / -1;color:var(--accent);font-size:13px;margin:10px 0 6px;padding:0}
+    table.metrics td.num{grid-column:1;grid-row:span 2;font-size:21px;line-height:1.2}
+    table.metrics td.m{grid-column:2;font-weight:600}
+    table.metrics td.ctx{grid-column:2;color:var(--muted);font-size:14px;line-height:1.45}
+    table.metrics tr.group-end{border-bottom-color:var(--rule)}
+    table.deps tr{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px}
+    table.deps td.pkg{font-weight:600}
+    table.deps td.dver{color:var(--muted);font-size:14px;white-space:nowrap}
+    table.deps td.notes{grid-column:1 / -1;color:var(--muted);font-size:14px;line-height:1.45}
+    table.issues tr{display:grid;grid-template-columns:60px minmax(0,1fr);gap:6px 10px}
+    table.issues td:nth-child(1){grid-column:1;grid-row:span 2}
+    table.issues td:nth-child(2){grid-column:2}
+    table.issues td:nth-child(3){grid-column:2}
+
+    .actions .btn{flex:1 1 100%;justify-content:center;min-height:46px}
+    .theme-toggle{right:calc(14px + env(safe-area-inset-right, 0px));bottom:calc(14px + env(safe-area-inset-bottom, 0px));padding:10px}
+    .theme-toggle .tt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
     .row:first-child .cell{padding-top:32px}
     h1{font-size:34px}
     .head{grid-template-columns:1fr}
@@ -203,14 +260,18 @@
     .appbar .saved,.appbar .dl,.counter{display:none}
     .appbar .name{font-size:14px}
     .dates{margin-left:0;width:100%}
-    .toast{bottom:84px}
+    .toast{bottom:calc(76px + env(safe-area-inset-bottom, 0px))}
     .zinger .z-msg{font-size:22px}
     .langs{left:12px;right:12px;width:auto}
+    .game-card{padding:16px}
+    #game-canvas{height:200px}
   }
   @media (prefers-reduced-motion:reduce){
     *{transition:none!important;scroll-behavior:auto!important}
     .tool .dot::after,.stuck::after{animation:none}
     .flash.go{animation:none;opacity:.25}
+    .whiteout.go{animation:none}
+    .comment.nudge{animation:none}
     tr.pulse td{animation:none;background:var(--hl)}
   }
 </style>
@@ -295,17 +356,17 @@
       <div class="cell">
         <h2 id="metrics">Success metrics</h2>
         <div class="tbl-wrap">
-          <table class="data">
+          <table class="data stack metrics">
             <thead><tr><th>Category</th><th>Result</th><th>Metric</th><th>Context</th></tr></thead>
             <tbody>
-              <tr><td class="cat" rowspan="4">GEO Scorecard</td><td class="num">300+</td><td>Brands on GEO Scorecard</td><td>Across ChatGPT, Perplexity, Gemini, Google AI Overviews, and Alexa for Shopping</td></tr>
-              <tr><td class="num">3.6M</td><td>LLM responses scored monthly</td><td>Pipeline built with a 15-person data science and engineering team</td></tr>
-              <tr><td class="num">98%</td><td>Variable cost reduction</td><td>Replaced a premium data vendor with a more capable provider</td></tr>
-              <tr class="group-end"><td class="num">50%+</td><td>Client pitches using Scorecard</td><td>Championed to sales leaders over dozens of internal tools</td></tr>
-              <tr class="group-end"><td class="cat">Exits</td><td class="num">$5M</td><td>Exit value</td><td>Freeze Nums, the CPG company Richard cofounded</td></tr>
-              <tr class="group-end"><td class="cat">Fundraising</td><td class="num">$5.6M</td><td>Venture funding raised to date</td><td>$5M Series A at Freeze Nums and $600K pre-seed at Mechanism Ventures</td></tr>
-              <tr><td class="cat" rowspan="2">Revenue</td><td class="num">$2.5M</td><td>Retail ARR secured</td><td>Costco, HomeGoods, and T.J. Maxx partnerships at Freeze Nums</td></tr>
-              <tr><td class="num">$750K</td><td>Incremental ARR added</td><td>New B2B acquisition funnel at Top Nutrition Coaching. Revenue grew 55% year over year.</td></tr>
+              <tr><td class="cat group-end" rowspan="4">GEO Scorecard</td><td class="num">300+</td><td class="m">Brands on GEO Scorecard</td><td class="ctx">Across ChatGPT, Perplexity, Gemini, Google AI Overviews, and Alexa for Shopping</td></tr>
+              <tr><td class="num">3.6M</td><td class="m">LLM responses scored monthly</td><td class="ctx">Pipeline built with a 15-person data science and engineering team</td></tr>
+              <tr><td class="num">98%</td><td class="m">Variable cost reduction</td><td class="ctx">Replaced a premium data vendor with a more capable provider</td></tr>
+              <tr class="group-end"><td class="num">50%+</td><td class="m">Client pitches using Scorecard</td><td class="ctx">Championed to sales leaders over dozens of internal tools</td></tr>
+              <tr class="group-end"><td class="cat">Exits</td><td class="num">$5M</td><td class="m">Exit value</td><td class="ctx">Freeze Nums, the CPG company Richard cofounded</td></tr>
+              <tr class="group-end"><td class="cat">Fundraising</td><td class="num">$1.6M</td><td class="m">Venture funding raised to date</td><td class="ctx">Raised across Freeze Nums and Mechanism Ventures</td></tr>
+              <tr><td class="cat" rowspan="2">Revenue</td><td class="num">$2.5M</td><td class="m">Retail revenue secured</td><td class="ctx">Costco, HomeGoods, and T.J. Maxx partnerships at Freeze Nums</td></tr>
+              <tr><td class="num">$750K</td><td class="m">Incremental revenue added</td><td class="ctx">New B2B acquisition funnel at Top Nutrition Coaching. Revenue grew 55% year over year.</td></tr>
             </tbody>
           </table>
         </div>
@@ -332,7 +393,7 @@
           <ul>
             <li>Increased venture launch rate 25% by building the studio's first internal systems and roadmaps.</li>
             <li>Secured $600K in pre-seed funding by feasibility testing 3 greenfield products.</li>
-            <li>Added $750K in incremental ARR with a new B2B acquisition funnel. Revenue grew 55% year over year.</li>
+            <li>Added $750K in incremental revenue with a new B2B acquisition funnel. Revenue grew 55% year over year.</li>
             <li>Launched a B2C channel from zero to $700K ARR in 6 months.</li>
           </ul>
         </div>
@@ -341,7 +402,7 @@
           <div class="role">COO and Cofounder</div>
           <ul>
             <li>Extended runway from 3 to 12 months while sustaining 15% month-over-month growth.</li>
-            <li>Secured $2.5M ARR through retail partners including Costco, HomeGoods, and T.J. Maxx.</li>
+            <li>Secured $2.5M in revenue through retail partners including Costco, HomeGoods, and T.J. Maxx.</li>
             <li>Raised a $5M Series A to hire specialists in operations, finance, and distribution.</li>
             <li>Company acquired in a $5M exit.</li>
           </ul>
@@ -367,11 +428,11 @@
       <div class="cell">
         <h2 id="dependencies">Dependencies</h2>
         <div class="tbl-wrap">
-          <table class="data">
+          <table class="data stack deps">
             <thead><tr><th>Package</th><th>Version</th><th>Notes</th></tr></thead>
             <tbody>
-              <tr><td>MBA, BYU Marriott School of Business</td><td>Apr 2027</td><td>BYU MBA Scholarship</td></tr>
-              <tr><td>B.S. Finance, BYU Marriott School of Business</td><td>Apr 2021</td><td>3.97 GPA. Full-tuition academic scholarship. First place in the Walmart Finance Case Competition and the Walmart AFDP Intern Case Competition.</td></tr>
+              <tr><td class="pkg">MBA, BYU Marriott School of Business</td><td class="dver">Apr 2027</td><td class="notes">BYU MBA Scholarship</td></tr>
+              <tr><td class="pkg">B.S. Finance, BYU Marriott School of Business</td><td class="dver">Apr 2021</td><td class="notes">3.97 GPA. Full-tuition academic scholarship. First place in the Walmart Finance Case Competition and the Walmart AFDP Intern Case Competition.</td></tr>
             </tbody>
           </table>
         </div>
@@ -396,13 +457,14 @@
       <div class="cell">
         <h2 id="issues">Known issues</h2>
         <div class="tbl-wrap">
-          <table class="data">
+          <table class="data stack issues">
             <thead><tr><th>ID</th><th>Issue</th><th>Status</th></tr></thead>
             <tbody id="issues-body">
               <tr><td class="id">RL-101</td><td>Recommends Dungeon Crawler Carl and William James in the same conversation.</td><td><span class="pill gray">Won't fix</span></td></tr>
               <tr><td class="id">RL-102</td><td><span class="anchor" data-c="c3">Twilight Imperium sessions exceed time estimates.</span></td><td><span class="pill amber">Known</span></td></tr>
               <tr><td class="id">RL-103</td><td>Former competitive swimmer. Still judges your flip turn.</td><td><span class="pill gray">Won't fix</span></td></tr>
               <tr><td class="id">RL-104</td><td>Builds a system for any task done twice.</td><td><span class="pill">By design</span></td></tr>
+              <tr><td class="id">RL-105</td><td><button class="linkish" id="game-link">Unauthorized game found in doc.</button></td><td><span class="pill gray">Won't fix</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -455,9 +517,23 @@
   </main>
 </div>
 
-<button class="theme-toggle" id="theme" role="switch" aria-checked="false"><span class="track"><span class="knob"></span></span>Dark mode</button>
+<button class="theme-toggle" id="theme" role="switch" aria-checked="false"><span class="track"><span class="knob"></span></span><span class="tt">Dark mode</span></button>
+<div class="game" id="game" hidden role="dialog" aria-modal="true" aria-labelledby="game-title">
+  <div class="game-card">
+    <div class="game-top">
+      <div>
+        <p class="game-title" id="game-title">Scope Creep</p>
+        <p class="game-sub" id="game-sub">Dodge the scope. Ship the sprint.</p>
+      </div>
+      <button class="btn" id="game-x">Close</button>
+    </div>
+    <canvas id="game-canvas" aria-label="Scope Creep runner game"></canvas>
+    <p class="game-hint" id="game-hint">Space or up arrow to jump. Esc to close.</p>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="flash" id="flash" aria-hidden="true"></div>
+<div class="whiteout" id="whiteout" aria-hidden="true"></div>
 <div class="zinger" id="zinger" role="alert"><p class="z-label">Translation error</p><p class="z-msg" id="zmsg"></p></div>
 
 <script>
@@ -482,7 +558,32 @@
     try { localStorage.setItem('theme', t); } catch (e) {}
   }
   setTheme(document.documentElement.dataset.theme || 'light');
-  themeBtn.addEventListener('click', () => setTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'));
+  const LIGHT_LINES = [
+    'Flashbang deployed. Your retinas have been notified.',
+    'The sun! It burns!',
+    'Light mode on. Squinting is expected behavior.',
+    'Brightness at 100%. This is a feature. Allegedly.'
+  ];
+  const DARK_LINES = [
+    'Dark mode on. Retinas report all systems normal.',
+    'Ahh. Much better.',
+    'Dark mode restored. Developers everywhere relax.',
+    'Welcome back to the shadows.'
+  ];
+  let lightIdx = 0, darkIdx = 0;
+  themeBtn.addEventListener('click', () => {
+    const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    if (next === 'light') {
+      if (!reduced) {
+        const w = document.getElementById('whiteout');
+        w.classList.remove('go'); void w.offsetWidth; w.classList.add('go');
+      }
+      showToast(LIGHT_LINES[lightIdx++ % LIGHT_LINES.length]);
+    } else {
+      showToast(DARK_LINES[darkIdx++ % DARK_LINES.length]);
+    }
+  });
 
   /* ---------- Comments ---------- */
   document.addEventListener('click', e => {
@@ -538,17 +639,18 @@
     if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(EMAIL).then(() => true, () => fallbackCopy());
     return Promise.resolve(fallbackCopy());
   }
-  $$('.email-link').forEach(a => {
+  function wireEmail(a){
     a.href = touch ? mailto : gmail;
     if (!touch) { a.target = '_blank'; a.rel = 'noopener'; }
     a.addEventListener('click', () => {
       copyEmail().then(ok => showToast('Ticket RL-001 created. Priority <b>P0</b>. ' + (ok ? 'Email copied. ' : '') + (touch ? 'Opening your mail app.' : 'Opening Gmail.'), 3200));
     });
-  });
+  }
+  $$('.email-link').forEach(wireEmail);
 
   /* ---------- Tickets ---------- */
   const tbody = $('#issues-body'), countEl = $('#bugcount');
-  const tickets = {}; let nextId = 105;
+  const tickets = {}; let nextId = 106;
   function jumpTo(row){
     row.classList.remove('pulse'); void row.offsetWidth; row.classList.add('pulse');
     row.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
@@ -584,10 +686,10 @@
     "Exit value":"Сумма выхода",
     "Freeze Nums, the CPG company Richard cofounded":"Freeze Nums, CPG-компания, сооснователем которой был Ричард",
     "Venture funding raised to date":"Всего привлечено венчурных инвестиций",
-    "$5M Series A at Freeze Nums and $600K pre-seed at Mechanism Ventures":"$5 млн в раунде A для Freeze Nums и $600 тыс. предпосевных инвестиций в Mechanism Ventures",
-    "Retail ARR secured":"ARR от ритейла",
+    "Raised across Freeze Nums and Mechanism Ventures":"Привлечено для Freeze Nums и Mechanism Ventures",
+    "Retail revenue secured":"Выручка от ритейла",
     "Costco, HomeGoods, and T.J. Maxx partnerships at Freeze Nums":"Партнёрства Freeze Nums с Costco, HomeGoods и T.J. Maxx",
-    "Incremental ARR added":"Дополнительный ARR",
+    "Incremental revenue added":"Дополнительная выручка",
     "New B2B acquisition funnel at Top Nutrition Coaching. Revenue grew 55% year over year.":"Новая B2B-воронка привлечения в Top Nutrition Coaching. Выручка выросла на 55% за год.",
     "Company acquired in a $5M exit.":"Компания продана с выходом на $5 млн.",
     "Result":"Результат","Metric":"Метрика","Context":"Контекст",
@@ -610,10 +712,10 @@
     "Pitched leadership a marketplace LLM strategy and won a 5x increase in team size and budget.":"Представил руководству LLM-стратегию для маркетплейсов и добился пятикратного роста команды и бюджета.",
     "Increased venture launch rate 25% by building the studio's first internal systems and roadmaps.":"Ускорил запуск проектов на 25%, создав первые внутренние системы и дорожные карты студии.",
     "Secured $600K in pre-seed funding by feasibility testing 3 greenfield products.":"Привлёк $600 тыс. предпосевных инвестиций, проверив реализуемость 3 новых продуктов.",
-    "Added $750K in incremental ARR with a new B2B acquisition funnel. Revenue grew 55% year over year.":"Добавил $750 тыс. ARR с новой B2B-воронкой привлечения. Выручка выросла на 55% за год.",
+    "Added $750K in incremental revenue with a new B2B acquisition funnel. Revenue grew 55% year over year.":"Добавил $750 тыс. выручки с новой B2B-воронкой привлечения. Выручка выросла на 55% за год.",
     "Launched a B2C channel from zero to $700K ARR in 6 months.":"Запустил B2C-канал с нуля до $700 тыс. ARR за 6 месяцев.",
     "Extended runway from 3 to 12 months while sustaining 15% month-over-month growth.":"Продлил запас денежных средств с 3 до 12 месяцев при росте 15% в месяц.",
-    "Secured $2.5M ARR through retail partners including Costco, HomeGoods, and T.J. Maxx.":"Обеспечил $2,5 млн ARR через ритейл-партнёров, включая Costco, HomeGoods и T.J. Maxx.",
+    "Secured $2.5M in revenue through retail partners including Costco, HomeGoods, and T.J. Maxx.":"Обеспечил $2,5 млн выручки через ритейл-партнёров, включая Costco, HomeGoods и T.J. Maxx.",
     "Raised a $5M Series A to hire specialists in operations, finance, and distribution.":"Привлёк $5 млн в раунде A для найма специалистов по операциям, финансам и дистрибуции.",
     "Named National Rookie of the Year after $200K ARR in door-to-door sales in 2 months.":"Признан лучшим новичком года в стране после $200 тыс. ARR в продажах от двери до двери за 2 месяца.",
     "Recruited, trained, and managed 7 new reps to $700K ARR in 3 months.":"Нанял, обучил и вывел 7 новых продавцов на $700 тыс. ARR за 3 месяца.",
@@ -628,6 +730,7 @@
     "English (native), Russian (C1)":"Английский (родной), русский (C1)",
     "Volunteer representative in Ukraine, 2016 to 2018. Trained 120+ people monthly on public speaking, leadership, and goal setting.":"Волонтёр-представитель в Украине с 2016 по 2018 год. Ежемесячно обучал 120+ человек публичным выступлениям, лидерству и постановке целей.",
     "Issue":"Проблема",
+    "Unauthorized game found in doc.":"В документе найдена несанкционированная игра.",
     "Recommends Dungeon Crawler Carl and William James in the same conversation.":"Советует Dungeon Crawler Carl и Уильяма Джеймса в одном разговоре.",
     "Twilight Imperium sessions exceed time estimates.":"Партии в «Сумерки империи» превышают оценку времени.",
     "Former competitive swimmer. Still judges your flip turn.":"Бывший пловец-спортсмен. До сих пор оценивает ваш кувырок-поворот.",
@@ -643,7 +746,7 @@
   const SEL = '#title, .doc h2, .doc p, .doc li, .doc .role, .doc .dates, .doc th, .doc td, .doc .pill, .doc .who';
   function candidates(){
     return $$(SEL).filter(el => {
-      if (el.closest('.comment') || el.closest('#issues-body tr:nth-child(n+5)')) return false;
+      if (el.closest('.comment') || el.closest('#issues-body tr:nth-child(n+6)')) return false;
       if (el.matches('td') && el.querySelector('.pill')) return false;
       return RU[norm(el.textContent)] !== undefined;
     });
@@ -771,7 +874,7 @@
   moreBtn.addEventListener('click', e => { e.stopPropagation(); langs.hidden ? openLangs(false) : closeLangs(); });
   $('#langs-close').addEventListener('click', closeLangs);
   document.addEventListener('click', e => { if (!langs.hidden && !e.target.closest('#langs') && !e.target.closest('#more-langs')) closeLangs(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLangs(); hideZinger(); } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLangs(); hideZinger(); closeGame(); } });
 
   const zinger = $('#zinger'); let zingerDone = null, zingerTimer;
   function hideZinger(){
@@ -805,6 +908,203 @@
     const msg = n === LANGS.length ? "That's every language. Russian is still the closest we got." : lines[n - 1];
     await zing(msg);
     upsertTicket('lang', `Reviewer tried ${joinList(tried)} after Russian failed.`, '<span class="pill gray">Working as intended</span>');
+  }
+
+  /* ---------- Scope Creep runner game ---------- */
+  const gameEl = $('#game'), canvas = $('#game-canvas'), ctx = canvas.getContext('2d');
+  const LABELS = ['Quick sync?', 'One small change', 'Can we add AI?', 'Per my last email', 'Circle back', 'Just a tiny ask', 'New stakeholder', 'Scope creep'];
+  const G = { state: 'ready', raf: 0, last: 0, W: 0, H: 0, groundY: 0, speed: 5, dist: 0, gap: 0,
+              obstacles: [], p: { x: 56, y: 0, vy: 0 }, buffer: 0, overAt: 0, best: 0, newBest: false, frame: 0 };
+  try { G.best = parseInt(localStorage.getItem('scopeCreepBest') || '0', 10) || 0; } catch (e) {}
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  let lastFocus = null;
+
+  function sizeCanvas(){
+    const dpr = window.devicePixelRatio || 1;
+    const r = canvas.getBoundingClientRect();
+    G.W = r.width; G.H = r.height; G.groundY = G.H - 34;
+    canvas.width = Math.round(r.width * dpr); canvas.height = Math.round(r.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function resetRun(){
+    G.speed = 5; G.dist = 0; G.obstacles = []; G.gap = 260; G.newBest = false;
+    G.p.y = 0; G.p.vy = 0; G.buffer = 0;
+  }
+  function openGame(sub){
+    if (!gameEl.hidden) return;
+    lastFocus = document.activeElement;
+    $('#game-sub').textContent = sub || 'Dodge the scope. Ship the sprint.';
+    $('#game-hint').textContent = touch ? 'Tap the game to jump.' : 'Space or up arrow to jump. Esc to close.';
+    gameEl.hidden = false; document.body.style.overflow = 'hidden';
+    closeLangs();
+    sizeCanvas(); resetRun(); G.state = 'ready';
+    canvas.tabIndex = 0; canvas.focus({ preventScroll: true });
+    G.last = performance.now(); cancelAnimationFrame(G.raf); G.raf = requestAnimationFrame(loop);
+  }
+  function closeGame(){
+    if (gameEl.hidden) return;
+    gameEl.hidden = true; document.body.style.overflow = '';
+    cancelAnimationFrame(G.raf);
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+  function press(){
+    const now = performance.now();
+    if (G.state === 'ready') { resetRun(); G.state = 'run'; return; }
+    if (G.state === 'over') { if (now - G.overAt > 450) { resetRun(); G.state = 'run'; } return; }
+    if (G.p.y <= 0.01) G.p.vy = 11; else G.buffer = now;
+  }
+  function spawn(){
+    ctx.font = '600 12px ' + css('--font');
+    const label = LABELS[Math.floor(Math.random() * LABELS.length)];
+    const w = Math.ceil(ctx.measureText(label).width) + 18;
+    G.obstacles.push({ x: G.W + 10, w, h: 26, label });
+    G.gap = G.speed * (48 + Math.random() * 55) + w;
+  }
+  function roundRect(x, y, w, h, r){
+    ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+  }
+  function update(k){
+    const p = G.p;
+    if (G.state !== 'run') return;
+    G.speed = Math.min(12, G.speed + 0.0022 * k);
+    G.dist += G.speed * k;
+    p.vy -= 0.62 * k; p.y = Math.max(0, p.y + p.vy * k);
+    if (p.y === 0) { p.vy = Math.max(0, p.vy); if (G.buffer && performance.now() - G.buffer < 140) { p.vy = 11; G.buffer = 0; } }
+    G.gap -= G.speed * k;
+    if (G.gap <= 0) spawn();
+    G.obstacles.forEach(o => o.x -= G.speed * k);
+    G.obstacles = G.obstacles.filter(o => o.x + o.w > -20);
+    const px = p.x + 5, py = G.groundY - p.y - 34, pw = 14, ph = 32;
+    for (const o of G.obstacles) {
+      const ox = o.x + 4, oy = G.groundY - o.h + 3, ow = o.w - 8, oh = o.h - 3;
+      if (px < ox + ow && px + pw > ox && py < oy + oh && py + ph > oy) {
+        G.state = 'over'; G.overAt = performance.now();
+        const pts = Math.floor(G.dist / 40);
+        if (pts > G.best) { G.best = pts; G.newBest = true; try { localStorage.setItem('scopeCreepBest', String(pts)); } catch (e) {} }
+        break;
+      }
+    }
+  }
+  function draw(){
+    const ink = css('--ink'), muted = css('--muted'), rule = css('--rule'), accent = css('--accent'),
+          hl = css('--hl'), edge = css('--hl-edge'), font = css('--font'), sheet = css('--sheet');
+    ctx.clearRect(0, 0, G.W, G.H);
+    // ground
+    ctx.strokeStyle = rule; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(0, G.groundY + 1); ctx.lineTo(G.W, G.groundY + 1); ctx.stroke();
+    ctx.fillStyle = rule;
+    const off = G.dist % 40;
+    for (let x = -off; x < G.W; x += 40) ctx.fillRect(x, G.groundY + 10, 14, 2);
+    // obstacles: speech bubbles
+    ctx.font = '600 12px ' + font; ctx.textBaseline = 'middle';
+    G.obstacles.forEach(o => {
+      const y = G.groundY - o.h;
+      ctx.fillStyle = hl; ctx.strokeStyle = edge; ctx.lineWidth = 1.5;
+      roundRect(o.x, y, o.w, o.h - 4, 7); ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(o.x + 10, G.groundY - 5); ctx.lineTo(o.x + 10, G.groundY); ctx.lineTo(o.x + 18, G.groundY - 5); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = ink; ctx.fillText(o.label, o.x + 9, y + (o.h - 4) / 2 + 1);
+    });
+    // player: a PM with a laptop
+    const p = G.p, bx = p.x, by = G.groundY - p.y;
+    G.frame += G.state === 'run' ? 1 : 0;
+    const step = p.y > 0 ? 0 : Math.floor(G.frame / 6) % 2;
+    ctx.strokeStyle = ink; ctx.lineWidth = 3; ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(bx + 8, by - 12); ctx.lineTo(bx + (step ? 3 : 6), by - 1);
+    ctx.moveTo(bx + 16, by - 12); ctx.lineTo(bx + (step ? 19 : 16), by - 1);
+    ctx.stroke();
+    ctx.fillStyle = accent; roundRect(bx + 4, by - 28, 16, 17, 4); ctx.fill();
+    ctx.fillStyle = ink; ctx.beginPath(); ctx.arc(bx + 12, by - 34, 6, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = muted; ctx.fillRect(bx + 18, by - 22, 9, 6);
+    ctx.fillStyle = sheet; ctx.fillRect(bx + 19, by - 21, 7, 3);
+    // HUD
+    const pts = Math.floor(G.dist / 40);
+    ctx.textBaseline = 'top'; ctx.textAlign = 'right'; ctx.fillStyle = muted; ctx.font = '600 13px ' + font;
+    ctx.fillText('Story points ' + String(pts).padStart(4, '0') + '    Best ' + String(G.best).padStart(4, '0'), G.W - 14, 12);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const tap = touch ? 'Tap' : 'Press space';
+    if (G.state === 'ready') {
+      ctx.fillStyle = ink; ctx.font = '800 20px ' + font; ctx.fillText('Scope Creep', G.W / 2, G.H / 2 - 26);
+      ctx.fillStyle = muted; ctx.font = '500 14px ' + font; ctx.fillText(tap + ' to start. Jump over the new requirements.', G.W / 2, G.H / 2 + 2);
+    } else if (G.state === 'over') {
+      ctx.fillStyle = ink; ctx.font = '800 20px ' + font; ctx.fillText('Sprint failed. Retro scheduled.', G.W / 2, G.H / 2 - 28);
+      ctx.fillStyle = muted; ctx.font = '500 14px ' + font;
+      ctx.fillText((G.newBest ? 'New best: ' : 'Story points: ') + pts + '. ' + tap + ' to try again.', G.W / 2, G.H / 2);
+    }
+    ctx.textAlign = 'left';
+  }
+  function loop(now){
+    const dt = Math.min(50, now - G.last); G.last = now;
+    update(dt / 16.67); draw();
+    G.raf = requestAnimationFrame(loop);
+  }
+  canvas.addEventListener('pointerdown', e => { e.preventDefault(); press(); });
+  $('#game-x').addEventListener('click', closeGame);
+  window.addEventListener('resize', () => { if (!gameEl.hidden) sizeCanvas(); });
+
+  // Triggers: hidden ticket, triple space, going offline
+  document.addEventListener('click', e => { if (e.target.closest('#game-link')) openGame('You found RL-105. It is not getting fixed.'); });
+  let spaceTimes = [];
+  document.addEventListener('keydown', e => {
+    if (!gameEl.hidden) {
+      if (e.key === ' ' || e.key === 'ArrowUp') { e.preventDefault(); if (!e.repeat) press(); }
+      return;
+    }
+    if (e.key !== ' ' || e.target.closest('button, a, input, textarea, select, [contenteditable]')) return;
+    const now = performance.now();
+    spaceTimes = spaceTimes.filter(t => now - t < 700); spaceTimes.push(now);
+    if (spaceTimes.length >= 3) { e.preventDefault(); spaceTimes = []; openGame('Triple space detected. Sprint starting.'); }
+  });
+  window.addEventListener('offline', () => openGame("You're offline. Perfect time for a sprint."));
+  window.addEventListener('online', () => showToast('Back online. The sprint can continue.'));
+
+  /* ---------- Konami code ---------- */
+  const KONAMI = ['arrowup','arrowup','arrowdown','arrowdown','arrowleft','arrowright','arrowleft','arrowright','b','a'];
+  let kPos = 0;
+  document.addEventListener('keydown', e => {
+    const k = e.key.toLowerCase();
+    kPos = k === KONAMI[kPos] ? kPos + 1 : (k === KONAMI[0] ? 1 : 0);
+    if (kPos === KONAMI.length) {
+      kPos = 0;
+      $$('#issues-body .pill').forEach(p => { p.className = 'pill'; p.textContent = 'Fixed'; });
+      showToast("Admin access granted. Every issue is fixed. Please don't tell Snap.", 4200);
+      const t = $('#issues'); if (t) t.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    }
+  });
+
+  /* ---------- Idle nudge ---------- */
+  let idleTimer, nudged = false;
+  const IDLE_MS = 90000;
+  function armIdle(){ clearTimeout(idleTimer); if (!nudged) idleTimer = setTimeout(idleNudge, IDLE_MS); }
+  ['mousemove','keydown','scroll','touchstart','click'].forEach(ev => window.addEventListener(ev, armIdle, { passive: true }));
+  armIdle();
+  function idleNudge(){
+    if (nudged || !gameEl.hidden || busy) { armIdle(); return; }
+    nudged = true;
+    const msg = 'Still reviewing? Take your time. Approval is one email away.';
+    const wide = window.matchMedia('(min-width:981px)').matches;
+    if (!wide) { showToast(msg, 5200); return; }
+    const mid = window.innerHeight / 2;
+    const row = $$('.doc .row').find(r => { const b = r.getBoundingClientRect(); return b.top <= mid && b.bottom >= mid; }) || $$('.doc .row')[0];
+    const aside = row.querySelector('.margin');
+    const c = document.createElement('div');
+    c.className = 'comment nudge';
+    c.innerHTML = '<div class="c-top"><span class="av" style="background:#2456D6">RL</span><span class="c-name">Richard Lindsay</span><button class="resolve">Resolve</button></div>' +
+                  '<div class="c-body">' + msg + ' <a class="email-link" href="#">Email Richard</a></div>';
+    const aTop = aside.getBoundingClientRect().top;
+    let top = Math.max(0, mid - aTop - 40);
+    aside.style.position = 'relative';
+    c.style.position = 'absolute'; c.style.left = '0'; c.style.right = '0';
+    aside.appendChild(c);
+    const h = c.offsetHeight;
+    aside.querySelectorAll('.comment:not(.nudge)').forEach(o => {
+      const r = o.getBoundingClientRect(), oTop = r.top - aTop, oBot = r.bottom - aTop;
+      if (top < oBot + 12 && top + h > oTop - 12) top = oBot + 12;
+    });
+    c.style.top = top + 'px';
+    c.querySelectorAll('.email-link').forEach(wireEmail);
+    c.querySelector('.resolve').addEventListener('click', e => { c.classList.add('resolved'); e.target.textContent = 'Resolved'; });
   }
 
   /* ---------- Outline ---------- */
