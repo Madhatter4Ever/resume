@@ -59,6 +59,11 @@
   .tool{font:500 14px/1 var(--font);color:var(--ink);background:none;border:1px solid transparent;border-radius:6px;padding:8px 10px;cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
   .tool:hover{background:var(--soft)}
   .tool[hidden]{display:none}
+  .tool.hero{background:var(--accent);color:var(--on-accent);font-weight:700;font-size:15px;padding:9px 14px 9px 10px;border-radius:999px;box-shadow:0 2px 10px rgba(36,86,214,.3)}
+  .tool.hero:hover{background:var(--accent);filter:brightness(1.08)}
+  .tool.hero .glyph{display:grid;place-items:center;height:24px;padding:0 6px;border-radius:6px;background:var(--on-accent);color:var(--accent);font-size:12px;font-weight:800;letter-spacing:.02em}
+  .tool.hero.done{background:none;color:var(--ink);box-shadow:none;border-color:var(--rule);font-weight:600}
+  .tool.hero.done .glyph{background:var(--soft);color:var(--muted)}
   .tool[disabled]{opacity:.5;cursor:progress}
   .tool .dot{width:8px;height:8px;border-radius:50%;background:var(--red);position:relative;flex:none}
   .tool .dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--red);animation:ring 1.6s ease-out infinite}
@@ -69,7 +74,7 @@
   /* Coach mark that draws people to Translate */
   .coach{position:absolute;top:calc(100% + 10px);left:16px;background:var(--toast-bg);color:var(--toast-ink);font-size:14px;font-weight:500;padding:10px 12px 10px 14px;border-radius:8px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow-lg);opacity:0;transform:translateY(-6px);transition:opacity .25s,transform .25s;pointer-events:none}
   .coach.show{opacity:1;transform:none;pointer-events:auto}
-  .coach::before{content:"";position:absolute;top:-6px;left:28px;width:12px;height:12px;background:var(--toast-bg);transform:rotate(45deg)}
+  .coach::before{content:"";position:absolute;top:-6px;left:40px;width:12px;height:12px;background:var(--toast-bg);transform:rotate(45deg)}
   .coach button{background:none;border:0;color:inherit;opacity:.7;font:600 13px var(--font);cursor:pointer;padding:2px 4px}
 
   /* Language picker */
@@ -168,6 +173,10 @@
   .zinger{position:fixed;left:50%;top:50%;z-index:46;width:min(520px,calc(100vw - 32px));background:var(--sheet);border:2px solid var(--red);border-radius:12px;padding:28px 28px 24px;box-shadow:var(--shadow-lg);transform:translate(-50%,-50%) scale(.92);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
   .zinger.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto;cursor:pointer}
   .zinger .z-label{color:var(--red);font-weight:700;font-size:14px;margin:0 0 8px}
+  .zinger .z-sub{margin:10px 0 0;font-size:16px;color:var(--muted)}
+  .zinger .z-sub[hidden]{display:none}
+  .zinger.calm{border-color:var(--accent)}
+  .zinger.calm .z-label{color:var(--accent)}
   .zinger .z-msg{font-size:26px;line-height:1.2;font-weight:800;letter-spacing:-.01em;margin:0}
 
   /* Hidden game ticket */
@@ -187,6 +196,18 @@
   /* Idle nudge comment */
   .comment.nudge{border-color:var(--accent);animation:nudgein .35s ease-out}
   @keyframes nudgein{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+
+  /* Prompt card */
+  .prompt{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom, 0px));z-index:55;width:min(440px,calc(100vw - 24px));background:var(--sheet);border:2px solid var(--accent);border-radius:14px;padding:20px 20px 18px;box-shadow:var(--shadow-lg);transform:translate(-50%,16px);opacity:0;transition:opacity .22s,transform .22s}
+  .prompt.show{opacity:1;transform:translate(-50%,0)}
+  .prompt[hidden]{display:none}
+  .prompt-x{position:absolute;top:12px;right:12px;background:none;border:0;color:var(--muted);font:500 13px var(--font);cursor:pointer;padding:6px}
+  .prompt-title{margin:0 70px 6px 0;font-size:22px;line-height:1.2;font-weight:800;letter-spacing:-.01em}
+  .prompt-body{margin:0 0 14px;font-size:16px;color:var(--ink)}
+  .prompt-actions{display:flex;flex-wrap:wrap;gap:10px}
+  .prompt-actions .btn{min-height:44px;padding:12px 18px}
+  .prompt-actions .btn[hidden]{display:none}
+  .prompt-note{margin:12px 0 0;font-size:13px;color:var(--muted)}
 
   /* Toast */
   .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);opacity:0;background:var(--toast-bg);color:var(--toast-ink);padding:12px 18px;border-radius:8px;font-size:15px;font-weight:500;pointer-events:none;transition:opacity .2s,transform .2s;z-index:50;width:max-content;max-width:calc(100vw - 32px);text-align:center}
@@ -264,6 +285,8 @@
     .zinger .z-msg{font-size:22px}
     .langs{left:12px;right:12px;width:auto}
     .game-card{padding:16px}
+    .prompt-actions .btn{flex:1 1 auto;justify-content:center}
+    .tool.hero{font-size:14px}
     #game-canvas{height:200px}
   }
   @media (prefers-reduced-motion:reduce){
@@ -290,7 +313,7 @@
     <a class="btn primary email-link" href="mailto:rm5.lindsay@gmail.com">Email Richard</a>
   </header>
   <div class="toolbar" role="toolbar" aria-label="Document tools">
-    <button class="tool" id="translate"><span class="dot" aria-hidden="true"></span><span class="label">Translate to Russian</span></button>
+    <button class="tool hero" id="translate"><span class="glyph" aria-hidden="true">Жж</span><span class="label">Translate to Russian</span><span class="dot" aria-hidden="true"></span></button>
     <button class="tool" id="more-langs" hidden>More languages</button>
     <span class="counter" aria-live="polite">Bugs filed: <b id="bugcount">0</b></span>
   </div>
@@ -531,10 +554,20 @@
     <p class="game-hint" id="game-hint">Space or up arrow to jump. Esc to close.</p>
   </div>
 </div>
+<div class="prompt" id="prompt" role="dialog" aria-labelledby="prompt-title" hidden>
+  <button class="prompt-x" id="prompt-x" aria-label="Close">Not now</button>
+  <p class="prompt-title" id="prompt-title"></p>
+  <p class="prompt-body" id="prompt-body"></p>
+  <div class="prompt-actions">
+    <button class="btn primary" id="prompt-go"></button>
+    <button class="btn" id="prompt-alt" hidden></button>
+  </div>
+  <p class="prompt-note" id="prompt-note" hidden></p>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="flash" id="flash" aria-hidden="true"></div>
 <div class="whiteout" id="whiteout" aria-hidden="true"></div>
-<div class="zinger" id="zinger" role="alert"><p class="z-label">Translation error</p><p class="z-msg" id="zmsg"></p></div>
+<div class="zinger" id="zinger" role="alert"><p class="z-label">Translation error</p><p class="z-msg" id="zmsg"></p><p class="z-sub" id="zsub" hidden></p></div>
 
 <script>
 (function(){
@@ -782,7 +815,7 @@
 
   async function runRussian(){
     busy = true; translateBtn.disabled = true;
-    hideCoach(); closeLangs();
+    hideCoach(); closeLangs(); hidePrompt();
     const all = candidates();
     const keys = new Map(all.map(el => [el, norm(el.textContent)]));
     const headBottom = $('.top').getBoundingClientRect().bottom;
@@ -811,7 +844,7 @@
 
     const stuckEl = jobs[jobs.length - 1].el;
     stuckEl.classList.add('stuck');
-    translated = true; setLabel('Translate back to English');
+    translated = true; setLabel('Translate back to English'); translateBtn.classList.add('done');
     const pct = Math.max(1, Math.round(doneWords / totalWords * 100));
     await wait(reduced ? 200 : 600);
     flashRed();
@@ -824,8 +857,16 @@
     if (!ruFailedOnce) {
       ruFailedOnce = true;
       moreBtn.hidden = false;
-      await wait(reduced ? 200 : 1100);
-      openLangs(true);
+      await wait(reduced ? 200 : 900);
+      showPrompt({
+        title: "Well, that didn't work.",
+        body: 'Try Arabic instead.',
+        go: 'Try Arabic',
+        onGo: () => tryLang('Arabic', null, true),
+        alt: 'Other languages',
+        onAlt: () => openLangs(false),
+        note: 'Yes, that bug was on purpose. Every bug on this page is.'
+      });
     }
   }
 
@@ -833,7 +874,7 @@
     originals.forEach((html, el) => { el.innerHTML = html; el.classList.remove('stuck'); });
     originals.clear();
     syncAnchors();
-    translated = false; setLabel('Translate to Russian');
+    translated = false; setLabel('Translate to Russian'); translateBtn.classList.remove('done');
     placeComments();
     showToast(`Back to English. ${tickets.ru ? tickets.ru.id + ' is still open.' : ''}`);
   }
@@ -842,6 +883,46 @@
     if (busy) return;
     translated ? revertEnglish() : runRussian();
   });
+
+  /* ---------- Prompt card ---------- */
+  const promptEl = $('#prompt');
+  let promptActions = {};
+  function showPrompt({ title, body, go, onGo, alt, onAlt, note }){
+    $('#prompt-title').textContent = title;
+    $('#prompt-body').textContent = body;
+    $('#prompt-go').textContent = go;
+    const altBtn = $('#prompt-alt');
+    altBtn.hidden = !alt; if (alt) altBtn.textContent = alt;
+    const noteEl = $('#prompt-note');
+    noteEl.hidden = !note; if (note) noteEl.textContent = note;
+    promptActions = { onGo, onAlt };
+    promptEl.hidden = false; void promptEl.offsetWidth; promptEl.classList.add('show');
+  }
+  function hidePrompt(){
+    promptEl.classList.remove('show');
+    setTimeout(() => { if (!promptEl.classList.contains('show')) promptEl.hidden = true; }, 230);
+  }
+  $('#prompt-go').addEventListener('click', () => { const f = promptActions.onGo; hidePrompt(); if (f) f(); });
+  $('#prompt-alt').addEventListener('click', e => { e.stopPropagation(); const f = promptActions.onAlt; hidePrompt(); if (f) f(); });
+  $('#prompt-x').addEventListener('click', hidePrompt);
+
+  // Reaching the end of the doc without trying Translate
+  let endPromptShown = false;
+  const endObs = new IntersectionObserver(entries => {
+    if (!entries.some(e => e.isIntersecting)) return;
+    if (endPromptShown || ruFailedOnce || busy || translated) return;
+    endPromptShown = true; endObs.disconnect();
+    setTimeout(() => {
+      if (ruFailedOnce || busy || !gameEl.hidden) return;
+      showPrompt({
+        title: 'Now check it out in Russian!',
+        body: 'You made it to the end. You earned this.',
+        go: 'Translate to Russian',
+        onGo: () => { if (!busy && !translated) runRussian(); }
+      });
+    }, 500);
+  }, { threshold: 0.6 });
+  endObs.observe($('#next').closest('.row'));
 
   /* ---------- Attention: coach mark on Translate ---------- */
   const coach = $('#coach');
@@ -874,31 +955,39 @@
   moreBtn.addEventListener('click', e => { e.stopPropagation(); langs.hidden ? openLangs(false) : closeLangs(); });
   $('#langs-close').addEventListener('click', closeLangs);
   document.addEventListener('click', e => { if (!langs.hidden && !e.target.closest('#langs') && !e.target.closest('#more-langs')) closeLangs(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLangs(); hideZinger(); closeGame(); } });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLangs(); hideZinger(); closeGame(); hidePrompt(); } });
 
   const zinger = $('#zinger'); let zingerDone = null, zingerTimer;
   function hideZinger(){
     zinger.classList.remove('show'); clearTimeout(zingerTimer);
     if (zingerDone) { const d = zingerDone; zingerDone = null; d(); }
   }
-  function zing(msg){
+  function zing(msg, label, calm, sub){
     return new Promise(res => {
       $('#zmsg').textContent = msg;
-      flashRed();
+      const zs = $('#zsub'); zs.hidden = !sub; zs.textContent = sub || '';
+      document.querySelector('#zinger .z-label').textContent = label || 'Translation error';
+      zinger.classList.toggle('calm', !!calm);
+      if (!calm) flashRed();
       zinger.classList.add('show');
       zingerDone = res;
-      zingerTimer = setTimeout(hideZinger, 2800);
+      zingerTimer = setTimeout(hideZinger, sub ? 4600 : label ? 3800 : 2800);
     });
   }
   zinger.addEventListener('click', hideZinger);
 
   const joinList = a => a.length < 2 ? a.join('') : a.length === 2 ? a.join(' and ') : a.slice(0, -1).join(', ') + ', and ' + a[a.length - 1];
 
-  async function tryLang(L, chip){
-    closeLangs();
+  async function tryLang(L, chip, promised){
+    closeLangs(); hidePrompt();
+    chip = chip || [...chips.children].find(c => c.textContent === L);
     if (tried.includes(L)) { await zing(`You already tried ${L}. It still doesn't work.`); return; }
-    tried.push(L); chip.classList.add('tried');
+    tried.push(L); if (chip) chip.classList.add('tried');
     const n = tried.length;
+    if (promised) {
+      await zing('I love that I come across as a guy you think speaks Arabic.', 'Arabic', true, "I don't.");
+      return;
+    }
     const lines = [
       `Really? You thought ${L} would work when Russian didn't?`,
       `${L}? Richard speaks two languages. You're on your third attempt.`,
@@ -907,7 +996,7 @@
     ];
     const msg = n === LANGS.length ? "That's every language. Russian is still the closest we got." : lines[n - 1];
     await zing(msg);
-    upsertTicket('lang', `Reviewer tried ${joinList(tried)} after Russian failed.`, '<span class="pill gray">Working as intended</span>');
+    upsertTicket('lang', 'Reviewer tried ' + joinList(tried) + ' after Russian failed.', '<span class="pill gray">Working as intended</span>');
   }
 
   /* ---------- Scope Creep runner game ---------- */
